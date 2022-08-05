@@ -2,7 +2,7 @@
 import logging
 from prometheus_client import Gauge
 from typing import Any
-
+from utils import ExceptionLogger
 
 def init(**_):
     import pyamdgpuinfo
@@ -77,20 +77,14 @@ def init(**_):
         amdgpu_vram_cpu_accessible_size.labels(gpu_info_obj.gpu_id).set(gpu_info_obj.memory_info["vram_cpu_accessible_size"])
         
 
-
-def __main():
+@ExceptionLogger()
+def main(**_):
     for gpu in gpus:
         results = gpu.get_metric_dict()
         for metric_name in results:
             metric_obj = amdgpu_metrics[metric_name]
             metric_obj.labels(gpu_id=gpu.gpu_id).set(results[metric_name])
 
-
-def main(**_):
-    try:
-        __main()
-    except Exception as e:
-        logging.exception(e)
 
 
 if __name__ == "__main__":

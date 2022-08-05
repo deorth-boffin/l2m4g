@@ -3,7 +3,7 @@ from utils import Aria2Rpc
 from prometheus_client import Gauge
 import os
 import logging
-
+from utils import ExceptionLogger
 
 def init(**config):
     global aria2_global_metrics
@@ -13,8 +13,8 @@ def init(**config):
     aria2_global_metrics = {}
     conn = Aria2Rpc(**config)
 
-
-def __main(*_):
+@ExceptionLogger()
+def main(**_):
 
     sel_para = ["gid", "totalLength", "completedLength", "uploadSpeed",
                 "downloadSpeed", "connections", "numSeeders", "files", "bittorrent"]
@@ -73,12 +73,6 @@ def __main(*_):
         metric_obj.set(value)
 
 
-def main(**_):
-    try:
-        return __main()
-    except Exception as e:
-        logging.exception(e)
-        raise
 
 
 if __name__ == "__main__":

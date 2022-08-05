@@ -3,6 +3,7 @@ import requests
 import re
 import logging
 from prometheus_client import Info
+from utils import ExceptionLogger
 
 def init(**_):
     global tieba_userinfo_line
@@ -27,15 +28,12 @@ def get_userinfo(id: str) -> dict:
     return out
 
 
-
+@ExceptionLogger()
 def main(**config) -> None:
-    try:
-        for id in config["ids"]:
-            info = get_userinfo(id)
-            tieba_userinfo_line.info(info)
-    except Exception as e:
-        logging.exception(e)
-        raise
+    for id in config["ids"]:
+        info = get_userinfo(id)
+        tieba_userinfo_line.info(info)
+
 
 
 if __name__ == "__main__":

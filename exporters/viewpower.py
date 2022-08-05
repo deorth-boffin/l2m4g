@@ -2,6 +2,7 @@
 import requests
 import logging
 from prometheus_client import Gauge, Info
+from utils import ExceptionLogger
 
 def get_monitor_data(host="127.0.0.1", port=15178, proto="http"):
     monitor_url = "%s://%s:%s/ViewPower/workstatus/reqMonitorData" % (
@@ -15,8 +16,8 @@ def init():
     viewpower_info=Info("viewpower_workInfo","viewpower workInfo none-numeric args")
     viewpower_metrics={}
 
-
-def __main(**config):
+@ExceptionLogger()
+def main(**config):
     data=get_monitor_data(host=config.get("host","127.0.0.1"),port=config.get("port",15178),proto=config.get("proto","http"))["workInfo"]
     info={}
     for arg in data:
@@ -41,13 +42,6 @@ def __main(**config):
     viewpower_info.clear()
     viewpower_info.info(info)
     
-
-def main(**config):
-    try:
-        __main(**config)
-    except Exception as e:
-        logging.exception(e)
-
 
 if __name__ == "__main__":
     main()

@@ -1,7 +1,7 @@
 #!/bin/python3
 import logging
 from prometheus_client import Gauge
-
+from utils import ExceptionLogger
 
 def init(**_):
     from s_tui.sources.util_source import UtilSource
@@ -22,8 +22,8 @@ def init(**_):
         metric_obj=Gauge("s_tui_sensors_"+source_name,"",["device"])
         s_tui_metrics.update({source_name:metric_obj})
 
-
-def __main():
+@ExceptionLogger()
+def main(**_):
     global s_tui_metrics
     for source in sources:
         source.update()
@@ -34,12 +34,6 @@ def __main():
             value=float(result[device_name])
             metric_obj.labels(device_name).set(value)
 
-def main(**_):
-    try:
-        __main()
-    except Exception as e:
-        logging.exception(e)
-    
     
 
 if __name__ == "__main__":

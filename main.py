@@ -2,7 +2,7 @@
 import logging
 from prometheus_client import start_http_server
 import click
-from utils import my_log_settings, JsonConfig
+from utils import JsonConfig, MyLogSettings, ExceptionLogger
 import exporters
 import os
 import sys
@@ -87,10 +87,9 @@ WantedBy=multi-user.target
 @click.option('--install', is_flag=True, callback=install_systemd_service,
               expose_value=False, is_eager=True, help='install systemd service file to system')
 @click.option('-c', "--conf", type=click.Path(exists=True), help='using specific json config file', default="config.json", show_envvar=True, show_default=True)
-@click.option('-l', "--log-file", type=click.Path(), help='using specific log file', default=None, show_envvar=True)
-@click.option("--log-level", type=click.Choice(['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'], case_sensitive=False), help='using specific log level', default="INFO", show_envvar=True, show_default=True)
-def main(conf, log_file, log_level):
-    my_log_settings(log_file, log_level)
+@MyLogSettings(show_envvar=True, show_default=True)
+@ExceptionLogger()
+def main(conf):
     conf = JsonConfig(conf)
     start_http_server(conf.get("exporter", {}).get("port", 8900))
 
@@ -136,7 +135,4 @@ def main(conf, log_file, log_level):
 
 
 if __name__ == "__main__":
-    try:
-        sys.exit(main())
-    except Exception as e:
-        logging.exception(e)
+    sys.exit(main())
