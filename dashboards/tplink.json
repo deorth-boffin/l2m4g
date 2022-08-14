@@ -25,7 +25,6 @@
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
     "id": 14,
-    "iteration": 1656137468986,
     "links": [],
     "liveNow": false,
     "panels": [
@@ -229,7 +228,7 @@
                 "text": {},
                 "textMode": "value_and_name"
             },
-            "pluginVersion": "9.0.1",
+            "pluginVersion": "9.0.2",
             "targets": [
                 {
                     "datasource": {
@@ -390,7 +389,7 @@
                     }
                 ]
             },
-            "pluginVersion": "9.0.1",
+            "pluginVersion": "9.0.2",
             "targets": [
                 {
                     "datasource": {
@@ -535,7 +534,7 @@
                 },
                 "textMode": "auto"
             },
-            "pluginVersion": "9.0.1",
+            "pluginVersion": "9.0.2",
             "targets": [
                 {
                     "datasource": {
@@ -607,7 +606,7 @@
                 },
                 "textMode": "auto"
             },
-            "pluginVersion": "9.0.1",
+            "pluginVersion": "9.0.2",
             "targets": [
                 {
                     "datasource": {
@@ -694,7 +693,7 @@
                 "showHeader": false,
                 "sortBy": []
             },
-            "pluginVersion": "9.0.1",
+            "pluginVersion": "9.0.2",
             "repeatDirection": "h",
             "targets": [
                 {
@@ -867,7 +866,7 @@
                 "showHeader": false,
                 "sortBy": []
             },
-            "pluginVersion": "9.0.1",
+            "pluginVersion": "9.0.2",
             "repeat": "Filters",
             "repeatDirection": "h",
             "targets": [
@@ -1015,7 +1014,7 @@
                 "showHeader": false,
                 "sortBy": []
             },
-            "pluginVersion": "9.0.1",
+            "pluginVersion": "9.0.2",
             "repeatDirection": "h",
             "targets": [
                 {
@@ -1454,7 +1453,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": null
                             },
                             {
                                 "color": "red",
@@ -1547,7 +1547,8 @@
                         "mode": "absolute",
                         "steps": [
                             {
-                                "color": "green"
+                                "color": "green",
+                                "value": null
                             },
                             {
                                 "color": "red",
@@ -2219,7 +2220,7 @@
             "type": "row"
         }
     ],
-    "refresh": false,
+    "refresh": "5s",
     "schemaVersion": 36,
     "style": "dark",
     "tags": [
@@ -2229,13 +2230,13 @@
         "list": []
     },
     "time": {
-        "from": "now-3h",
+        "from": "now-30m",
         "to": "now"
     },
     "timepicker": {},
     "timezone": "",
     "title": "tplink",
     "uid": "iOvwKf9nz",
-    "version": 116,
+    "version": 118,
     "weekStart": ""
 }

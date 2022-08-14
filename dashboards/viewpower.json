@@ -85,7 +85,7 @@
                 },
                 "textMode": "auto"
             },
-            "pluginVersion": "9.0.0",
+            "pluginVersion": "9.0.2",
             "targets": [
                 {
                     "datasource": {
@@ -183,7 +183,7 @@
                 },
                 "textMode": "value"
             },
-            "pluginVersion": "9.0.0",
+            "pluginVersion": "9.0.2",
             "targets": [
                 {
                     "datasource": {
@@ -283,7 +283,8 @@
                         "min",
                         "max",
                         "mean",
-                        "sum"
+                        "sum",
+                        "last"
                     ],
                     "displayMode": "table",
                     "placement": "bottom"
@@ -648,7 +649,7 @@
             "type": "timeseries"
         }
     ],
-    "refresh": "",
+    "refresh": "5s",
     "schemaVersion": 36,
     "style": "dark",
     "tags": [
@@ -658,13 +659,13 @@
         "list": []
     },
     "time": {
-        "from": "now-12h",
+        "from": "now-15m",
         "to": "now"
     },
     "timepicker": {},
     "timezone": "browser",
     "title": "viewpower",
     "uid": "T1DMcSrnk",
-    "version": 64,
+    "version": 66,
     "weekStart": ""
 }
