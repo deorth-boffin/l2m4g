@@ -9,15 +9,9 @@ import sys
 import time
 from threading import Thread
 from func_timeout import func_set_timeout
+from typing import Callable
+from functools import wraps
 
-
-def wait_until_next(interval: int, jitter: float = 0) -> None:
-    jitter = abs(jitter)
-    if jitter < interval/2:
-        time.sleep(jitter)
-    now = time.time()
-    wait = max(interval-(now % interval) - jitter, 0)
-    time.sleep(wait)
 
 
 def install_systemd_service(ctx, _, value):
@@ -84,6 +78,36 @@ WantedBy=multi-user.target
     ctx.exit()
 
 
+class FuncJitInfRun(object):
+    @staticmethod
+    def wait_until_next(interval: int, jitter: float = 0) -> None:
+        jitter = abs(jitter)
+        if jitter < interval/2:
+            time.sleep(jitter)
+        now = time.time()
+        wait = max(interval-(now % interval) - jitter, 0)
+        time.sleep(wait)
+
+    def __init__(self, interval) -> None:
+        self.interval = interval
+
+
+    def __call__(self, func: Callable) -> Callable:
+        @wraps(func)
+        def wrapped_function(*args, **kwargs):
+            jitter = self.interval*0.48
+            while True:
+                self.__class__.wait_until_next(self.interval, jitter)
+                logging.debug("started running function %s"%func.__name__)
+                start_time = time.time()
+                func(*args, **kwargs)
+                used_time=time.time()-start_time
+                logging.debug("finished running function %s, used time %.3fs"%(func.__name__,used_time))
+                jitter = (used_time+jitter)*0.55+0.02
+        return wrapped_function
+                
+
+
 @click.command(context_settings=dict(auto_envvar_prefix="PME"))
 @click.option('--install', is_flag=True, callback=install_systemd_service,
               expose_value=False, is_eager=True, help='install systemd service file to system')
@@ -106,37 +130,28 @@ def main(conf):
         try:
             module_init(**conf[module_name])
         except Exception as e:
-            logging.error("init() in module %s failed with exception, see logs below")
+            logging.error(
+                "init() in module %s failed with exception, see logs below")
             logging.exception(e)
             continue
         inited_module.append(module_name)
     interval = conf.get("exporter", {}).get("interval", 10)
-    jitter = interval*0.48
-    while True:
-        threads = []
-        wait_until_next(interval, jitter)
-        start_time = time.time()
-        logging.debug("started refresh metrics")
-        for module_name in inited_module:
-            if module_name == "exporter":
-                continue
-            try:
-                module_main = eval("exporters.%s.main" % module_name)
-            except AttributeError:
-                logging.warning(
-                    "cannot run main() in module %s, please check if module is correctly written" % module_name)
-                continue
-            module_main.__name__ = module_name+"_main"
-            module_main = func_set_timeout(interval)(module_main)
-            module_main = ExceptionLogger()(module_main)
-            t = Thread(target=module_main, kwargs=conf[module_name])
-            t.start()
-            threads.append(t)
+    for module_name in inited_module:
+        try:
+            module_main = eval("exporters.%s.main" % module_name)
+        except AttributeError:
+            logging.warning(
+                "cannot run main() in module %s, please check if module is correctly written" % module_name)
+            continue
+        module_main.__name__ = module_name+"_main"
+        module_main = func_set_timeout(interval)(module_main)
+        module_main = FuncJitInfRun(interval)(module_main)
+        module_main = ExceptionLogger()(module_main)
+        t = Thread(target=module_main, kwargs=conf[module_name])
+        t.start()
 
-        for t in threads:
-            t.join()
-        logging.debug("finished refresh metrics")
-        jitter = (time.time()-start_time+jitter)*0.55+0.02
+
+        
 
 
 if __name__ == "__main__":
