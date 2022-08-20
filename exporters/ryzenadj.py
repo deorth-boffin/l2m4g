@@ -1,7 +1,6 @@
 #!/bin/python3
 import logging
 from prometheus_client import Gauge
-from utils import ExceptionLogger
 
 def init(**_):
     from ryzen_ppd.cpu import RyzenAdj
@@ -65,7 +64,6 @@ def init(**_):
                 arg: metric
             })
 
-@ExceptionLogger()
 def main(**_):
     ryzenadj_obj.refresh()
     for metric_name in ryzenadj_metrics:

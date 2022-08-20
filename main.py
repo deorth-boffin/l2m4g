@@ -8,6 +8,7 @@ import os
 import sys
 import time
 from threading import Thread
+from func_timeout import func_set_timeout
 
 
 def wait_until_next(interval: int, jitter: float = 0) -> None:
@@ -114,19 +115,16 @@ def main(conf):
                 continue
             try:
                 module_main = eval("exporters.%s.main" % module_name)
-                t = Thread(target=module_main,
-                           kwargs=conf.get(module_name, {}))
-                t.start()
-                threads.append(t)
             except AttributeError:
                 logging.warning(
                     "cannot run main() in module %s, please check if module is correctly written" % module_name)
-            except Exception as e:
-                logging.exception(e)
-                if logging.root.isEnabledFor(logging.DEBUG):
-                    raise
-                else:
-                    return 255
+                continue
+            module_main.__name__ = module_name+"_main"
+            module_main = func_set_timeout(interval)(module_main)
+            module_main = ExceptionLogger()(module_main)
+            t = Thread(target=module_main, kwargs=conf[module_name])
+            t.start()
+            threads.append(t)
 
         for t in threads:
             t.join()

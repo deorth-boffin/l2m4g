@@ -2,7 +2,7 @@
 import requests
 import logging
 from prometheus_client import Gauge, Info
-from utils import ExceptionLogger
+
 
 
 def get_monitor_data(host="127.0.0.1", port=15178, proto="http", timeout=5):
@@ -20,7 +20,7 @@ def init():
     viewpower_metrics = {}
 
 
-@ExceptionLogger()
+
 def main(**config):
     data = get_monitor_data(**config)["workInfo"]
     info = {}

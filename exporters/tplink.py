@@ -3,7 +3,6 @@
 from requests.utils import unquote
 import logging
 from prometheus_client import Gauge, Info
-from utils import ExceptionLogger
 if __package__ == '':
     from _tpapi import TPapi
 else:
@@ -81,7 +80,6 @@ def init(**config):
     url = "http://%s/" % config.get("host", "tplogin.cn")
     conn = TPapi(url, config["password"])
 
-@ExceptionLogger()
 def main(**_) -> None:
     global conn
     logging.debug("start refresh tp-link explorer")

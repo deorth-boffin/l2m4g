@@ -3,7 +3,6 @@ from utils import Aria2Rpc
 from prometheus_client import Gauge
 import os
 import logging
-from utils import ExceptionLogger
 
 def init(**config):
     global aria2_global_metrics
@@ -13,7 +12,6 @@ def init(**config):
     aria2_global_metrics = {}
     conn = Aria2Rpc(**config)
 
-@ExceptionLogger()
 def main(**_):
 
     sel_para = ["gid", "totalLength", "completedLength", "uploadSpeed",

@@ -3,7 +3,6 @@ import requests
 import re
 import logging
 from prometheus_client import Info
-from utils import ExceptionLogger
 
 
 def init(**_):
@@ -30,7 +29,6 @@ def get_userinfo(id: str, tmout=5) -> dict:
     return out
 
 
-@ExceptionLogger()
 def main(**config) -> None:
     for id in config["ids"]:
         info = get_userinfo(id, config.get("timeout", 5))
