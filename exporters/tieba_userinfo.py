@@ -5,14 +5,16 @@ import logging
 from prometheus_client import Info
 from utils import ExceptionLogger
 
+
 def init(**_):
     global tieba_userinfo_line
     tieba_userinfo_line = Info("tieba_userinfo_line",
-                           "some userinfo from baidu tieba")
+                               "some userinfo from baidu tieba")
 
-def get_userinfo(id: str) -> dict:
+
+def get_userinfo(id: str, tmout=5) -> dict:
     url = "https://tieba.baidu.com/home/main?id=%s" % id
-    text = requests.get(url).text
+    text = requests.get(url, timeout=tmout).text
     regexes = {
         "username": '<span class="userinfo_username ">(.*?)</span>',
         "location": "<span>IP属地:(.*?)</span>"
@@ -31,9 +33,8 @@ def get_userinfo(id: str) -> dict:
 @ExceptionLogger()
 def main(**config) -> None:
     for id in config["ids"]:
-        info = get_userinfo(id)
+        info = get_userinfo(id, config.get("timeout", 5))
         tieba_userinfo_line.info(info)
-
 
 
 if __name__ == "__main__":

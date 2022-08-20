@@ -504,9 +504,9 @@ class TPapi:
             raise ValueError("Incorrect password")
         self.apiurl = Url.join(self.url, "stok=%s/ds" % self.stok)
 
-    def apipost(self, data: dict):
+    def apipost(self, data: dict, timeout=5):
         logging.debug("api post data:%s" % str(data))
-        req = requests.post(url=self.apiurl, json=data)
+        req = requests.post(url=self.apiurl, json=data, timeout=timeout)
         ret = req.json()
         if ret["error_code"] == -40401:
             logging.warning("tpapi return EUNAUTH error, flush stok to retry")

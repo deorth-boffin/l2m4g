@@ -2,7 +2,7 @@
 import logging
 from prometheus_client import start_http_server
 import click
-from utils import JsonConfig, MyLogSettings, ExceptionLogger
+from utils import JsonConfig, MyLogSettings, ExceptionLogger, my_log_settings
 import exporters
 import os
 import sys
