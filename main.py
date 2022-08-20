@@ -93,16 +93,23 @@ WantedBy=multi-user.target
 def main(conf):
     conf = JsonConfig(conf)
     start_http_server(conf.get("exporter", {}).get("port", 8900))
-
+    inited_module = []
     for module_name in conf:
         if module_name == "exporter":
             continue
         try:
             module_init = eval("exporters.%s.init" % module_name)
-            module_init(**conf.get(module_name, {}))
         except AttributeError:
             logging.warning(
                 "cannot run init() in module %s, please check if module is correctly written" % module_name)
+            continue
+        try:
+            module_init(**conf[module_name])
+        except Exception as e:
+            logging.error("init() in module %s failed with exception, see logs below")
+            logging.exception(e)
+            continue
+        inited_module.append(module_name)
     interval = conf.get("exporter", {}).get("interval", 10)
     jitter = interval*0.48
     while True:
@@ -110,7 +117,7 @@ def main(conf):
         wait_until_next(interval, jitter)
         start_time = time.time()
         logging.debug("started refresh metrics")
-        for module_name in conf:
+        for module_name in inited_module:
             if module_name == "exporter":
                 continue
             try:
