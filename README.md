@@ -2,19 +2,19 @@
 prometheus exporter for some of my devices/services that I am using written in python.
 # Installation
 ## Install global dependencies
-`pip3 install prometheus_client psutil requests click`
+`pip3 install prometheus_client psutil requests click func_timeout`
 ## Optional dependency
 See dependency section in each plugin section.
 ## clone repository
-clone this repository:
-`git clone https://github.com/deorth-kku/py-misc-exporter.git`
+clone this repository:  
+`git clone --recursive https://github.com/deorth-kku/py-misc-exporter.git`
 ## Run
 ```
 cd py-misc-exporter
 python3 main.py
 ```
 # Configuration
-As you can see from the command line help `python3 main.py --help`, there are only 4 command line option.
+As you can see from the command line help `python3 main.py --help`, there are only 4 command line option.  
 Suggested way to use this is creating a systemd service by using the `--install` option, once executed, it will create three files:
 * service file: /etc/systemd/system/py-misc-exporter.service
 * environment file: /etc/default/py-misc-exporter
@@ -38,8 +38,8 @@ Global configuration are in the "export" setion, there are only 2 args:
     }
 ```
 ### Plugins config
-Plugins configuration is written as "$plugin_name" setion. 
-Argument in each setion will be directly pass to plugin as it's keyword argments. See configuration section in each plugin section.
+Plugins configuration is written as `"plugin_name"` setion.  
+Argument in each setion will be directly pass to plugin as it's keyword argments. See configuration section in each plugin section.  
 Only plugin that its configuration existed in config file will be enabled. So even if the plugin does not need configuration at all, you will need to create its config setion as an empty dict, like this:
 ```
     "s_tui_sensors":{}
@@ -60,11 +60,10 @@ Example:
 * host: your router ip/hostname. Default: "tplogin.cn"
 * password: your router admin password. This option is required.
 ### Garfana dashboard
-See: 
-![Dashboard](dashboards/tplink.json)
-
+See:
+[Dashboard](dashboards/tplink.json)
 ## viewpower
-UPS statitics from viewpower webui
+UPS statitics from viewpower WebUI
 ### Dependency
 No extra dependency.
 ### Configuration options
@@ -73,21 +72,20 @@ No extra dependency.
 * proto: "http" or "https". Default: "http"
 * timeout: http request timeout. Default: 5.
 ### Garfana dashboard
-See: 
-![Dashboard](dashboards/viewpower.json)
-
+See:
+[Dashboard](dashboards/viewpower.json)
 
 ## s_tui_sensors
-Export machine's sensors data from ![s-tui](https://github.com/amanusk/s-tui).
+Export machine's sensors data from [s-tui](https://github.com/amanusk/s-tui).
 ### Install dependency
-Follow the instruction from s-tui's ![Simple installation](https://github.com/amanusk/s-tui#simple-installation).
+Follow the instruction from s-tui's [Simple installation](https://github.com/amanusk/s-tui#simple-installation).
 ### Configuration options
-No need for configuration, leave it empty as the ![Plugins config](#plugins-config) example did.
+No need for configuration, leave it empty as the [Plugins config](#plugins-config) example did.
 ### Garfana dashboard
-See: 
-![Dashboard](dashboards/s-tui.json)
+See:
+[Dashboard](dashboards/s-tui.json)
 ## aria2
-Export ![aria2](https://github.com/aria2/aria2) download status data.
+Export [aria2](https://github.com/aria2/aria2) download status data.
 ### Dependency
 No extra dependency.
 ### Configuration options
@@ -105,26 +103,24 @@ Example:
 * protocal: "http" or "https". Default: "http"
 * api: "jsonrpc" or "xmlrpc". Default: "xmlrpc"
 ### Garfana dashboard
-See: 
-![Dashboard](dashboards/aria2.json)
-
+See:
+[Dashboard](dashboards/aria2.json)
 ## ryzenadj
-AMD APU statistic from ![RyzenAdj](https://github.com/FlyGoat/RyzenAdj)
-Python wrapper from ![ryzen-ppd](https://github.com/xsmile/ryzen-ppd)
+AMD APU statistic from [RyzenAdj](https://github.com/FlyGoat/RyzenAdj)  
+Python wrapper from [ryzen-ppd](https://github.com/xsmile/ryzen-ppd)
 ### Dependency
-See ryzenppd's ![Requirements](https://github.com/xsmile/ryzen-ppd#requirements)
+See ryzenppd's [Requirements](https://github.com/xsmile/ryzen-ppd#requirements)
 ### Configuration options
 No need for configuration.
 ### Garfana dashboard
-See: 
-![Dashboard](dashboards/amd-cpu-gpu-stats.json)
-
+See:
+[Dashboard](dashboards/amd-cpu-gpu-stats.json)
 ## amdgpu
-AMD GPU statistic from ![pyamdgpuinfo](https://github.com/mark9064/pyamdgpuinfo)
+AMD GPU statistic from [pyamdgpuinfo](https://github.com/mark9064/pyamdgpuinfo)
 ### Dependency
-`pip install pyamdgpuinfo`
+`pip3 install pyamdgpuinfo`
 ### Configuration options
 No need for configuration.
 ### Garfana dashboard
-See: 
-![Dashboard](dashboards/amd-cpu-gpu-stats.json)
+See:
+[Dashboard](dashboards/amd-cpu-gpu-stats.json)
