@@ -145,8 +145,8 @@ def main(conf):
             continue
         module_main.__name__ = module_name+"_main"
         module_main = func_set_timeout(interval)(module_main)
+        module_main = ExceptionLogger(exceptions=Exception,handler_func=(logging.exception,))(module_main)
         module_main = FuncJitInfRun(interval)(module_main)
-        module_main = ExceptionLogger()(module_main)
         t = Thread(target=module_main, kwargs=conf[module_name])
         t.start()
 
