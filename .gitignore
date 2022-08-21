@@ -2,6 +2,7 @@
 .vscode
 config.json
 dashboards.json
+pics
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
