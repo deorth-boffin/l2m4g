@@ -158,11 +158,12 @@ def main(**_) -> None:
     try:
         tplink_upnpd_upnp_lease.clear()
     except NameError:
-        info_template = list(result["upnpd"]["upnp_lease"][0].values())[0]
-        info_keys = list(info_template.keys())
-        info_keys.remove("enable")
-        tplink_upnpd_upnp_lease = Gauge(
-            "tplink_upnpd_upnp_lease", "tplink upnp lease info", info_keys)
+        if len(result["upnpd"]["upnp_lease"])>0:
+            info_template = list(result["upnpd"]["upnp_lease"][0].values())[0]
+            info_keys = list(info_template.keys())
+            info_keys.remove("enable")
+            tplink_upnpd_upnp_lease = Gauge(
+                "tplink_upnpd_upnp_lease", "tplink upnp lease info", info_keys)
     for port in result["upnpd"]["upnp_lease"]:
         info = list(port.values())[0]
         enable = info.pop("enable")
