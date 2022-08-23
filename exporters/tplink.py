@@ -3,6 +3,7 @@
 from requests.utils import unquote
 import logging
 from prometheus_client import Gauge, Info
+import os
 if __package__ == '':
     from _tpapi import TPapi
 else:
@@ -24,6 +25,7 @@ def unquote_hostname(input: dict) -> dict:
     input.update({"hostname": unquote(input["hostname"])})
     return input
 
+
 def init(**config):
     global tplink_cap_host_num
     global tplink_cap_guest_num
@@ -44,8 +46,9 @@ def init(**config):
     global tplink_port_manage_dev_info
     global tplink_system_logs_uptime
     global conn
-    
-    tplink_cap_host_num = Gauge('tplink_cap_host_num', 'tplink online device num')
+
+    tplink_cap_host_num = Gauge(
+        'tplink_cap_host_num', 'tplink online device num')
     tplink_cap_guest_num = Gauge(
         'tplink_cap_guest_num', 'tplink online guest device num')
     tplink_wan_status_up_time = Gauge(
@@ -59,7 +62,7 @@ def init(**config):
     tplink_wanv6_status_up_time = Gauge(
         'tplink_wanv6_status_up_time', 'tplink wan ipv6 uptime')
     tplink_wanv6_status = Info("tplink_wanv6_status",
-                            "tplink full wan ipv6 status")
+                               "tplink full wan ipv6 status")
 
     tplink_host_info_down_speed = Gauge(
         'tplink_host_info_down_speed', 'tplink lan device download speed', ["ip", "hostname", "mac"])
@@ -78,13 +81,21 @@ def init(**config):
     tplink_system_logs_uptime = 0
 
     url = "http://%s/" % config.get("host", "tplogin.cn")
-    conn = TPapi(url, config["password"])
+    stok_file = config.get("stok_file",None)
+    if stok_file and os.path.exists(stok_file):
+        logging.debug("using stok file instead of password")
+        with open(stok_file, "r") as tf:
+            stok = tf.read()
+    else:
+        stok = None
+
+    conn = TPapi(url, config["password"], stok=stok)
+
 
 def main(**_) -> None:
     global conn
     logging.debug("start refresh tp-link explorer")
-    
-    
+
     data = {
         "method": "get",
         "network": {
@@ -158,7 +169,7 @@ def main(**_) -> None:
     try:
         tplink_upnpd_upnp_lease.clear()
     except NameError:
-        if len(result["upnpd"]["upnp_lease"])>0:
+        if len(result["upnpd"]["upnp_lease"]) > 0:
             info_template = list(result["upnpd"]["upnp_lease"][0].values())[0]
             info_keys = list(info_template.keys())
             info_keys.remove("enable")
