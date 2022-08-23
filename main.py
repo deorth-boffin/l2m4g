@@ -13,7 +13,6 @@ from typing import Callable
 from functools import wraps
 
 
-
 def install_systemd_service(ctx, _, value):
     if not value or ctx.resilient_parsing:
         return
@@ -91,21 +90,20 @@ class FuncJitInfRun(object):
     def __init__(self, interval) -> None:
         self.interval = interval
 
-
     def __call__(self, func: Callable) -> Callable:
         @wraps(func)
         def wrapped_function(*args, **kwargs):
             jitter = self.interval*0.48
             while True:
                 self.__class__.wait_until_next(self.interval, jitter)
-                logging.debug("started running function %s"%func.__name__)
+                logging.debug("started running function %s" % func.__name__)
                 start_time = time.time()
                 func(*args, **kwargs)
-                used_time=time.time()-start_time
-                logging.debug("finished running function %s, used time %.3fs"%(func.__name__,used_time))
+                used_time = time.time()-start_time
+                logging.debug("finished running function %s, used time %.3fs" % (
+                    func.__name__, used_time))
                 jitter = (used_time+jitter)*0.55+0.02
         return wrapped_function
-                
 
 
 @click.command(context_settings=dict(auto_envvar_prefix="PME"))
@@ -117,6 +115,8 @@ class FuncJitInfRun(object):
 def main(conf):
     conf = JsonConfig(conf)
     start_http_server(conf.get("exporter", {}).get("port", 8900))
+    interval = conf.get("exporter", {}).get("interval", 10)
+
     inited_module = []
     for module_name in conf:
         if module_name == "exporter":
@@ -135,7 +135,7 @@ def main(conf):
             logging.exception(e)
             continue
         inited_module.append(module_name)
-    interval = conf.get("exporter", {}).get("interval", 10)
+
     for module_name in inited_module:
         try:
             module_main = eval("exporters.%s.main" % module_name)
@@ -144,14 +144,17 @@ def main(conf):
                 "cannot run main() in module %s, please check if module is correctly written" % module_name)
             continue
         module_main.__name__ = module_name+"_main"
-        module_main = func_set_timeout(interval)(module_main)
-        module_main = ExceptionLogger(exceptions=Exception,handler_func=(logging.exception,))(module_main)
+        logger = logging.root
+        if logger.isEnabledFor(logging.DEBUG) and len(logger.handlers) == 1 and logger.handlers[0].stream.name == "<stderr>":
+            logging.debug(
+                "running debug mode, disable function timemout for module %s" % module_name)
+        else:
+            module_main = func_set_timeout(interval)(module_main)
+        module_main = ExceptionLogger(
+            exceptions=Exception, handler_func=(logging.exception,))(module_main)
         module_main = FuncJitInfRun(interval)(module_main)
         t = Thread(target=module_main, kwargs=conf[module_name])
         t.start()
-
-
-        
 
 
 if __name__ == "__main__":
