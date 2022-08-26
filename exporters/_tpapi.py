@@ -511,11 +511,13 @@ class TPapi:
         if ret["error_code"] == -40401:
             logging.warning("tpapi return EUNAUTH error, flush stok to retry")
             self.flushstok()
-            req = requests.post(url=self.apiurl, json=data)
+            req = requests.post(url=self.apiurl, json=data, timeout=timeout)
             ret = req.json()
 
         if ret["error_code"] != 0:
             raise RuntimeError(self.error_names[ret["error_code"]])
+        if logging.root.isEnabledFor(logging.DEBUG):
+            logging.debug("api return data:%s" % str(ret))
         return ret
 
     def __getattr__(self, name):
