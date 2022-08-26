@@ -8,7 +8,7 @@ import os
 import sys
 import time
 from threading import Thread
-from func_timeout import func_set_timeout
+from func_timeout import func_set_timeout,FunctionTimedOut
 from typing import Callable
 from functools import wraps
 
@@ -151,7 +151,7 @@ def main(conf):
         else:
             module_main = func_set_timeout(interval)(module_main)
         module_main = ExceptionLogger(
-            exceptions=Exception, handler_func=(logging.exception,))(module_main)
+            exceptions=BaseException, handler_func=(logging.exception,))(module_main)
         module_main = FuncJitInfRun(interval)(module_main)
         t = Thread(target=module_main, kwargs=conf[module_name])
         t.start()
