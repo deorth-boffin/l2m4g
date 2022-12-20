@@ -8,7 +8,7 @@ import os
 import sys
 import time
 from threading import Thread
-from func_timeout import func_set_timeout,FunctionTimedOut
+from func_timeout import func_set_timeout, FunctionTimedOut
 from typing import Callable
 from functools import wraps
 
@@ -85,6 +85,7 @@ class FuncJitInfRun(object):
             time.sleep(jitter)
         now = time.time()
         wait = max(interval-(now % interval) - jitter, 0)
+        logging.debug("wait %s second" % wait)
         time.sleep(wait)
 
     def __init__(self, interval) -> None:

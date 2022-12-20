@@ -11,9 +11,9 @@ def init(**_):
                                "some userinfo from baidu tieba")
 
 
-def get_userinfo(id: str, tmout=5) -> dict:
+def get_userinfo(id: str, tmout=5, proxy="") -> dict:
     url = "https://tieba.baidu.com/home/main?id=%s" % id
-    text = requests.get(url, timeout=tmout).text
+    text = requests.get(url, timeout=tmout, proxies={"https": proxy}).text
     regexes = {
         "username": '<span class="userinfo_username ">(.*?)</span>',
         "location": "<span>IP属地:(.*?)</span>"
@@ -31,7 +31,7 @@ def get_userinfo(id: str, tmout=5) -> dict:
 
 def main(**config) -> None:
     for id in config["ids"]:
-        info = get_userinfo(id, config.get("timeout", 5))
+        info = get_userinfo(id, config.get("timeout", 5),config.get("proxy",""))
         tieba_userinfo_line.info(info)
 
 

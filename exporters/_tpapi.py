@@ -613,6 +613,7 @@ class TPapi:
             info = list(host.values())[0]
             if info["is_cur_host"] == "1":
                 return info
+        raise RuntimeError("cannot find current host")
 
     def gethostinfobymac(self, mac):
         mac = mac.lower()
