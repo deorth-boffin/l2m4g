@@ -25,63 +25,10 @@
     "fiscalYearStartMonth": 0,
     "graphTooltip": 0,
     "id": 25,
-    "iteration": 1655519935194,
     "links": [],
     "liveNow": false,
     "panels": [
         {
-            "datasource": {
-                "type": "prometheus",
-                "uid": "6H_MEvrnk"
-            },
-            "description": "",
-            "fieldConfig": {
-                "defaults": {
-                    "color": {
-                        "mode": "palette-classic"
-                    },
-                    "custom": {
-                        "axisLabel": "",
-                        "axisPlacement": "auto",
-                        "barAlignment": 0,
-                        "drawStyle": "line",
-                        "fillOpacity": 5,
-                        "gradientMode": "opacity",
-                        "hideFrom": {
-                            "legend": false,
-                            "tooltip": false,
-                            "viz": false
-                        },
-                        "lineInterpolation": "smooth",
-                        "lineWidth": 1,
-                        "pointSize": 5,
-                        "scaleDistribution": {
-                            "type": "linear"
-                        },
-                        "showPoints": "auto",
-                        "spanNulls": false,
-                        "stacking": {
-                            "group": "A",
-                            "mode": "none"
-                        },
-                        "thresholdsStyle": {
-                            "mode": "off"
-                        }
-                    },
-                    "mappings": [],
-                    "thresholds": {
-                        "mode": "absolute",
-                        "steps": [
-                            {
-                                "color": "green",
-                                "value": null
-                            }
-                        ]
-                    },
-                    "unit": "watt"
-                },
-                "overrides": []
-            },
             "gridPos": {
                 "h": 11,
                 "w": 12,
@@ -89,63 +36,9 @@
                 "y": 0
             },
             "id": 5,
-            "interval": "5s",
             "libraryPanel": {
-                "description": "",
-                "meta": {
-                    "connectedDashboards": 1,
-                    "created": "2022-06-07T14:38:31+08:00",
-                    "createdBy": {
-                        "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-                        "id": 1,
-                        "name": "admin"
-                    },
-                    "folderName": "node",
-                    "folderUid": "GcfWKrrnz",
-                    "updated": "2022-06-18T10:39:23+08:00",
-                    "updatedBy": {
-                        "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56",
-                        "id": 1,
-                        "name": "admin"
-                    }
-                },
-                "name": "s_tui_sensors_Power",
-                "type": "timeseries",
-                "uid": "x_k24kC7k",
-                "version": 11
-            },
-            "maxDataPoints": 4096,
-            "options": {
-                "legend": {
-                    "calcs": [
-                        "min",
-                        "max",
-                        "mean",
-                        "last"
-                    ],
-                    "displayMode": "table",
-                    "placement": "bottom"
-                },
-                "tooltip": {
-                    "mode": "multi",
-                    "sort": "desc"
-                }
-            },
-            "targets": [
-                {
-                    "datasource": {
-                        "type": "prometheus",
-                        "uid": "6H_MEvrnk"
-                    },
-                    "editorMode": "code",
-                    "expr": "s_tui_sensors_Power{instance=\"$node\"}",
-                    "legendFormat": "{{device}}",
-                    "range": true,
-                    "refId": "A"
-                }
-            ],
-            "title": "s_tui_sensors_Power",
-            "type": "timeseries"
+                "uid": "x_k24kC7k"
+            }
         },
         {
             "datasource": {
@@ -158,6 +51,8 @@
                         "mode": "palette-classic"
                     },
                     "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
@@ -216,7 +111,8 @@
                         "last"
                     ],
                     "displayMode": "table",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": true
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -251,6 +147,8 @@
                         "mode": "palette-classic"
                     },
                     "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
@@ -309,7 +207,8 @@
                         "last"
                     ],
                     "displayMode": "table",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": true
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -346,6 +245,8 @@
                         "mode": "palette-classic"
                     },
                     "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
@@ -404,7 +305,8 @@
                         "last"
                     ],
                     "displayMode": "table",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": true
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -438,6 +340,8 @@
                         "mode": "palette-classic"
                     },
                     "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
@@ -496,7 +400,8 @@
                         "last"
                     ],
                     "displayMode": "table",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": true
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -521,7 +426,7 @@
         }
     ],
     "refresh": "5s",
-    "schemaVersion": 36,
+    "schemaVersion": 37,
     "style": "dark",
     "tags": [],
     "templating": {
@@ -529,8 +434,12 @@
             {
                 "current": {
                     "selected": true,
-                    "text": "mb19.lan:8900",
-                    "value": "mb19.lan:8900"
+                    "text": "localhost:8900",
+                    "value": "localhost:8900"
+                },
+                "datasource": {
+                    "type": "prometheus",
+                    "uid": "6H_MEvrnk"
                 },
                 "definition": "label_values(s_tui_sensors_Util{}, instance)",
                 "hide": 0,
@@ -562,13 +471,13 @@
         ]
     },
     "time": {
-        "from": "now-15m",
+        "from": "now-1h",
         "to": "now"
     },
     "timepicker": {},
     "timezone": "",
     "title": "s-tui",
     "uid": "x3IK4zjnz",
-    "version": 16,
+    "version": 17,
     "weekStart": ""
 }

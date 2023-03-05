@@ -64,7 +64,7 @@
                 "overrides": []
             },
             "gridPos": {
-                "h": 9,
+                "h": 10,
                 "w": 3,
                 "x": 0,
                 "y": 1
@@ -78,6 +78,7 @@
                 "legend": {
                     "displayMode": "table",
                     "placement": "bottom",
+                    "showLegend": true,
                     "values": [
                         "value"
                     ]
@@ -134,6 +135,18 @@
                     "legendFormat": "wired devices",
                     "range": false,
                     "refId": "C"
+                },
+                {
+                    "datasource": {
+                        "type": "prometheus",
+                        "uid": "6H_MEvrnk"
+                    },
+                    "editorMode": "code",
+                    "expr": "tplink_cap_guest_num{}",
+                    "hide": false,
+                    "legendFormat": "guest devices",
+                    "range": true,
+                    "refId": "D"
                 }
             ],
             "timeFrom": "5s",
@@ -207,7 +220,7 @@
                 "overrides": []
             },
             "gridPos": {
-                "h": 5,
+                "h": 6,
                 "w": 9,
                 "x": 3,
                 "y": 1
@@ -228,7 +241,7 @@
                 "text": {},
                 "textMode": "value_and_name"
             },
-            "pluginVersion": "9.0.2",
+            "pluginVersion": "9.2.2",
             "targets": [
                 {
                     "datasource": {
@@ -363,7 +376,7 @@
                 ]
             },
             "gridPos": {
-                "h": 17,
+                "h": 18,
                 "w": 12,
                 "x": 12,
                 "y": 1
@@ -389,7 +402,7 @@
                     }
                 ]
             },
-            "pluginVersion": "9.0.2",
+            "pluginVersion": "9.2.2",
             "targets": [
                 {
                     "datasource": {
@@ -514,7 +527,7 @@
                 "h": 4,
                 "w": 4,
                 "x": 3,
-                "y": 6
+                "y": 7
             },
             "hideTimeOverride": true,
             "id": 12,
@@ -534,7 +547,7 @@
                 },
                 "textMode": "auto"
             },
-            "pluginVersion": "9.0.2",
+            "pluginVersion": "9.2.2",
             "targets": [
                 {
                     "datasource": {
@@ -586,7 +599,7 @@
                 "h": 4,
                 "w": 5,
                 "x": 7,
-                "y": 6
+                "y": 7
             },
             "hideTimeOverride": true,
             "id": 14,
@@ -606,7 +619,7 @@
                 },
                 "textMode": "auto"
             },
-            "pluginVersion": "9.0.2",
+            "pluginVersion": "9.2.2",
             "targets": [
                 {
                     "datasource": {
@@ -676,7 +689,7 @@
                 "h": 8,
                 "w": 4,
                 "x": 0,
-                "y": 10
+                "y": 11
             },
             "hideTimeOverride": true,
             "id": 36,
@@ -693,7 +706,7 @@
                 "showHeader": false,
                 "sortBy": []
             },
-            "pluginVersion": "9.0.2",
+            "pluginVersion": "9.2.2",
             "repeatDirection": "h",
             "targets": [
                 {
@@ -849,7 +862,7 @@
                 "h": 8,
                 "w": 3,
                 "x": 4,
-                "y": 10
+                "y": 11
             },
             "hideTimeOverride": true,
             "id": 16,
@@ -866,7 +879,7 @@
                 "showHeader": false,
                 "sortBy": []
             },
-            "pluginVersion": "9.0.2",
+            "pluginVersion": "9.2.2",
             "repeat": "Filters",
             "repeatDirection": "h",
             "targets": [
@@ -996,7 +1009,7 @@
                 "h": 8,
                 "w": 5,
                 "x": 7,
-                "y": 10
+                "y": 11
             },
             "hideTimeOverride": true,
             "id": 17,
@@ -1014,7 +1027,7 @@
                 "showHeader": false,
                 "sortBy": []
             },
-            "pluginVersion": "9.0.2",
+            "pluginVersion": "9.2.2",
             "repeatDirection": "h",
             "targets": [
                 {
@@ -1109,7 +1122,7 @@
                 "h": 1,
                 "w": 24,
                 "x": 0,
-                "y": 18
+                "y": 19
             },
             "id": 29,
             "panels": [],
@@ -1128,6 +1141,8 @@
                         "mode": "palette-classic"
                     },
                     "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
@@ -1190,7 +1205,7 @@
                 "h": 12,
                 "w": 12,
                 "x": 0,
-                "y": 19
+                "y": 20
             },
             "id": 4,
             "interval": "5s",
@@ -1204,6 +1219,7 @@
                     ],
                     "displayMode": "table",
                     "placement": "bottom",
+                    "showLegend": true,
                     "sortBy": "Last",
                     "sortDesc": true
                 },
@@ -1277,6 +1293,8 @@
                         "mode": "palette-classic"
                     },
                     "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
@@ -1326,7 +1344,7 @@
                 "h": 12,
                 "w": 12,
                 "x": 12,
-                "y": 19
+                "y": 20
             },
             "id": 2,
             "interval": "5s",
@@ -1338,7 +1356,8 @@
                         "last"
                     ],
                     "displayMode": "table",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": true
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -1420,6 +1439,8 @@
                         "mode": "palette-classic"
                     },
                     "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
@@ -1469,7 +1490,7 @@
                 "h": 11,
                 "w": 12,
                 "x": 0,
-                "y": 31
+                "y": 32
             },
             "id": 33,
             "options": {
@@ -1480,7 +1501,8 @@
                         "last"
                     ],
                     "displayMode": "table",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": true
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -1515,6 +1537,8 @@
                         "mode": "palette-classic"
                     },
                     "custom": {
+                        "axisCenteredZero": false,
+                        "axisColorMode": "text",
                         "axisLabel": "",
                         "axisPlacement": "auto",
                         "barAlignment": 0,
@@ -1564,14 +1588,15 @@
                 "h": 11,
                 "w": 12,
                 "x": 12,
-                "y": 31
+                "y": 32
             },
             "id": 35,
             "options": {
                 "legend": {
                     "calcs": [],
                     "displayMode": "list",
-                    "placement": "bottom"
+                    "placement": "bottom",
+                    "showLegend": true
                 },
                 "tooltip": {
                     "mode": "multi",
@@ -1604,7 +1629,7 @@
                 "h": 1,
                 "w": 24,
                 "x": 0,
-                "y": 42
+                "y": 43
             },
             "id": 44,
             "panels": [
@@ -1887,7 +1912,7 @@
                 "h": 1,
                 "w": 24,
                 "x": 0,
-                "y": 43
+                "y": 44
             },
             "id": 31,
             "panels": [
@@ -2221,7 +2246,7 @@
         }
     ],
     "refresh": "5s",
-    "schemaVersion": 36,
+    "schemaVersion": 37,
     "style": "dark",
     "tags": [
         "network"
@@ -2237,6 +2262,6 @@
     "timezone": "",
     "title": "tplink",
     "uid": "iOvwKf9nz",
-    "version": 118,
+    "version": 120,
     "weekStart": ""
 }
