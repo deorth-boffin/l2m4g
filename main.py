@@ -22,7 +22,7 @@ def install_systemd_service(ctx, _, value):
 
     service_filename = "/etc/systemd/system/py-misc-exporter.service"
     env_filename = "/etc/default/py-misc-exporter"
-    config_filename = "/etc/py-misc-exporter/pme.conf"
+    config_filename = "/etc/py-misc-exporter/pme.json"
 
     python_path = sys.executable
     script_path = os.path.abspath(__file__)

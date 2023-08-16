@@ -2,7 +2,7 @@
 prometheus exporter for some of my devices/services that I am using written in python.
 # Installation
 ## Install global dependencies
-`pip3 install prometheus_client psutil requests click func_timeout`
+`pip3 install -r requirement.txt`
 ## Optional dependency
 See dependency section in each plugin section.
 ## clone repository
